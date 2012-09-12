@@ -34,6 +34,9 @@ function getImg() {
       var token = btoa("techcrunchtest@buddycloud.org" + ':' + "techcrunchtest");
       xhr.setRequestHeader("Authorization", "Basic " + token);
     },
+    xhrFields: {
+      withCredentials = true;
+    },
     data: {"data": image,
            "content-type": "image/png"},
     success: function() {
