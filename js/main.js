@@ -35,7 +35,7 @@ function getImg() {
       xhr.setRequestHeader("Authorization", "Basic " + token);
     },
     xhrFields: {
-      withCredentials = true;
+      withCredentials: true;
     },
     data: {"data": image,
            "content-type": "image/png"},
