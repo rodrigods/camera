@@ -27,23 +27,22 @@ function getImg() {
   // show screenshot
   $('.preview').append(canvas);
   setTimeout(removeScreenshot, 1000);
-  
-  $.ajax("https://api.buddycloud.org/techcrunch@topics.buddycloud.org/media", {
+
+  event.preventDefault();
+
+  $.ajax({
     type: "POST",
-    beforeSend : function(xhr) {
-      var token = btoa("techcrunchtest@buddycloud.org" + ':' + "techcrunchtest");
+    url: "https://api.buddycloud.org/cameraapp@buddycloud.org/media",
+    dataType: "text",
+    crossDomain: true,
+    data: {"data": image, "content-type": "image/png"},
+    xhrFields: {withCredentials: true},
+    beforeSend: function(xhr) {
+      var token = btoa("cameraapp@buddycloud.org" + ':' + "cameraapp");
       xhr.setRequestHeader("Authorization", "Basic " + token);
     },
-    xhrFields: {
-      withCredentials: true
-    },
-    data: {"data": image,
-           "content-type": "image/png"},
     success: function() {
       console.log("success");
-    },
-    complete: function (response) {
-      console.log(response);
     }
   });
 }
