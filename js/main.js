@@ -33,7 +33,7 @@ function getImg() {
   $.ajax({
     type: "POST",
     url: "https://api.buddycloud.org/cameraapp@buddycloud.org/media",
-    dataType: "text",
+    dataType: "application/json",
     crossDomain: true,
     data: {"data": image, "content-type": "image/png"},
     xhrFields: {withCredentials: true},
@@ -41,12 +41,32 @@ function getImg() {
       var token = btoa("cameraapp@buddycloud.org" + ':' + "cameraapp");
       xhr.setRequestHeader("Authorization", "Basic " + token);
     },
-    success: function() {
-      console.log("success");
+    complete: function(res) {
+      postComment($.parseJSON(res.responseText).id);
     }
   });
-}
+};
+
+function postComment(mediaId) {
+  var mediaUrl = "https://api.buddycloud.org/cameraapp@buddycloud.org/media/" + mediaId;
+  $.ajax({
+    type: "POST",
+    url: "https://api.buddycloud.org/cameraapp@buddycloud.org/content/posts",
+    contentType: "application/json",
+    dataType: "text",
+    crossDomain: true,
+    data: JSON.stringify({"content":"New media " + mediaUrl}),
+    xhrFields: {withCredentials: true},
+    beforeSend: function(xhr) {
+      var token = btoa("cameraapp@buddycloud.org" + ':' + "cameraapp");
+      xhr.setRequestHeader("Authorization", "Basic " + token);
+    },
+    complete: function(res) {
+      console.log("posted")
+    }
+  });  
+};
 
 function removeScreenshot(){
   $('.preview canvas').remove();
-}
+};
